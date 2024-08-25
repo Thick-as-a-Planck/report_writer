@@ -1,0 +1,546 @@
+import tkinter as tk
+import random as r
+
+student_name = ""
+possess = "his"
+subject = "he"
+object_pronoun = "him"
+possess_cap = "His"
+subject_cap = "He"
+object_pronoun_cap = "Him"
+
+# Intro Text List
+intros = [
+    "{student_name_cap} has only been in the class for a short while. ",
+    "{student_name_cap} has been studying with me for a short time. ",
+    "I have been teaching {student_name_cap} for only a short period. ",
+    "{student_name_cap} has been in the class for several weeks now.",
+    "{student_name_cap} has been studying with me for the past few weeks. ",
+    "Over the past few weeks, I have gotten to know {student_name_cap} well. ",
+    "{student_name_cap} has been with me for a long time now. ",
+    "{student_name_cap} has been studying with me for a long time now. ",
+    "In the time that {student_name_cap} has been in my class, I have gotten to know {object_pronoun} very well. ",
+]
+
+# Work Ethic Text List
+work = [
+    # Terrible
+    "{subject_cap} does not work well in class and rarely completes any tasks given to {object_pronoun}.",
+    "{subject_cap} is rarely focused on the tasks being done in class and so has made very little progress.",
+    "{subject_cap} has not been very focused during that time and needs to work a lot harder to see any improvement.",
+
+    # Below average
+    "{subject_cap} has made some improvement but needs to focus more to really benefit from the class.",
+    "{subject_cap} is capable of working hard occasionally but often gets distracted.",
+    "{subject_cap} has produced some good work but is often not focused.",
+
+    # Average
+    "{subject_cap} is mostly hard-working but occasionally loses focus.",
+    "{subject_cap} has worked well but sometimes struggles to stay focused.",
+    "{subject_cap} has generally worked well but can occasionally find it difficult to stay on task.",
+
+    # Good
+    "{subject_cap} has worked hard to improve during that time.",
+    "{subject_cap} is generally a good student who works well.",
+    "{subject_cap} works well in class and consistently works hard to complete activities.",
+
+    # Very good
+    "{subject_cap} is an extremely hardworking student who completes all work given to {object_pronoun}.",
+    "{subject_cap} is a fantastic student and works exceptionally hard.",
+    "It has been wonderful to have {object_pronoun} in the class as {subject} is a very dedicated and hard-working student.",
+]
+
+# Grammar Text List
+grammar = [
+    # Terrible
+    "{student_name_cap}'s grammar is well below that required by the class and {subject} struggles to use any of the structures correctly.",
+    "{possess_cap} grammar usage is very weak for this level and {subject} makes a very large number of mistakes or does not attempt to use the grammar at all.",
+    "{subject_cap} has huge gaps in {possess} grammar knowledge and struggles to use any of the structures studied at this level.",
+
+    # Below average
+    "{student_name_cap}'s grammar is weak for this level and {subject} tends to make a lot of mistakes.",
+    "{possess_cap} grammar usage is lower than the level of the class and {subject} makes frequent mistakes.",
+    "{student_name_cap} still struggles with many of the grammar structures used at this level and makes frequent mistakes.",
+
+    # Average
+    "{student_name_cap}'s grammar is generally good but {subject} sometimes makes errors which make it difficult for {object_pronoun} to communicate.",
+    "{possess_cap} grammar usage is fairly accurate but {subject} still makes minor mistakes regularly.",
+    "{student_name_cap} has a decent grasp of most grammar structures but still struggles to use them accurately.",
+
+    # Good
+    "{student_name_cap}'s grammar is good for {possess} level but {subject} does make occasional errors.",
+    "{possess_cap} grammar usage is usually accurate and the few mistakes {subject} does make do not hinder {possess} ability to communicate.",
+    "{student_name_cap} has a good level of grammar and can use all the structures studied in class effectively.",
+
+    # Very good
+    "{student_name_cap}'s grammar is extremely good for {possess} level and {subject} is able to express {object_pronoun}self very clearly.",
+    "{possess_cap} grammar usage is exceptionally good and {subject} can accurately use all structures studied at {possess} level.",
+    "{student_name_cap} tends to be extremely accurate with all grammar structures and is working well above the level expected of {object_pronoun}.",
+]
+
+# Grammar Problem Areas
+grammar_details = {
+    "Present Simple": [
+        "{subject_cap} still has problems with present simple, especially third person with does.",
+        "{subject_cap} still struggles with present simple. {subject_cap} should work on using this especially third person ‘do or does’ issues.",
+        "Present simple is a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Present Continuous": [
+        "{subject_cap} often has problems with present continuous, frequently forgetting the verb to be or the -ing form of the verb.",
+        "{subject_cap} struggles with present continuous. {subject_cap} needs to remember to use both the verb to be (‘am’, ‘is’ or ‘are’) along with the -ing form of the verb.",
+        "Present continuous is a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Past Simple": [
+        "{subject_cap} has some problems with past simple. In particular, {subject} should focus on using V1 with negatives and questions, not V2.",
+        "{subject_cap} struggles with past simple. {subject_cap} makes frequent mistakes with V1 or V2 when using negatives or questions.",
+        "Past Simple is an area of concern for {object_pronoun}, {subject} should work on this in {possess} own time to make sure {subject} can use it accurately."
+    ],
+    "Irregular Verbs": [
+        "{subject_cap} can use past simple well with regular verbs, but should take time to study irregular verbs at home. Mistakes such as ‘breaked’ and ‘writed’ are common.",
+        "{subject_cap} has a decent grasp of past simple but is let down by {possess} lack of knowledge of irregular verbs. Verb forms are important, {student_name_cap}!",
+        "Irregular verbs are a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Present Perfect": [
+        "{subject_cap} has not yet mastered the use of present perfect and often uses past simple or present simple instead.",
+        "{subject_cap} still struggles with present perfect.",
+        "Present perfect is an area of concern for {object_pronoun}, {subject} should work on this in {possess} own time to make sure {subject} can use it accurately."
+    ],
+    "Futures": [
+        "{subject_cap} has some issues with futures. {subject_cap} needs to work on this area.",
+        "{subject_cap} has yet to master future forms correctly.",
+        "Futures are a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Comparatives": [
+        "{subject_cap} has some problems with comparative forms. {subject_cap} needs to remember to use ‘er’ or ‘more’ depending on the word length, as well as using ‘than’.",
+        "{subject_cap} often makes mistakes with comparatives. The correct form is ‘noun + be + adjective+er + than + noun’ or ‘noun + be + more + adjective + than + noun’ depending on the adjective length.",
+        "Comparatives are a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "As Adjective As": [
+        "{subject_cap} can use normal comparatives well, but struggles with ‘as adjective as’ forms.",
+        "{subject_cap} has problems with more complex comparative forms such as ‘as adjective as’.",
+        "‘As Adjective As’ is an area of concern for {object_pronoun}, {subject} should work on this in {possess} own time to make sure {subject} can use it accurately."
+    ],
+    "Conditionals": [
+        "{subject_cap} needs to work on {possess} conditional forms. Particularly which part of the conditional goes with ‘if’ (the cause) and which part is the result.",
+        "{subject_cap} still has some problems with conditional forms. {subject_cap} needs to focus on which part of the conditional is the cause and which is the result.",
+        "Conditionals are a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Past Perfect vs Past Simple": [
+        "{subject_cap} often confuses past simple and present perfect. This is a common problem for English learners and something {subject} should work on.",
+        "{subject_cap} sometimes mixes up past perfect and past simple. {subject} should focus on understanding the sequence of events.",
+        "Past perfect vs Past Simple is an area of concern for {object_pronoun}, {subject} should work on this in {possess} own time to make sure {subject} can use it accurately."
+    ],
+    "Past Continuous": [
+        "{subject_cap} can use past simple well, but struggles to combine this with past continuous forms.",
+        "{subject_cap} is able to use past simple but should work on combining this with past continuous for actions that happen at the same time.",
+        "Past continuous is a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ],
+    "Past Perfect": [
+        "{subject_cap} struggles with past perfect. While {possess} use of past simple is good, {subject} has difficulty using the two tenses together.",
+        "{subject_cap} needs to improve {possess} understanding of past perfect, especially when discussing actions that happened before another past event.",
+        "Past perfect is a problem area for {object_pronoun}, {subject} needs to work on this in {possess} own time to ensure {subject} can use it accurately."
+    ]
+}
+
+# Vocabulary Text List
+vocab = [
+    # Terrible
+    "{student_name_cap}'s vocabulary is very weak. {subject_cap} has large gaps in {possess} knowledge and this frequently causes problems with communication.",
+    "{student_name_cap} has major problems with {possess} vocabulary. {subject_cap} often struggles to find the right words when speaking and this leads to problems with communication.",
+    "In terms of vocabulary, {student_name_cap} is well below the level expected in this class. This creates many problems when {subject} is trying to communicate.",
+
+    # Below average
+    "{student_name_cap}'s vocabulary is slightly weak for this level. There are some basic words which {subject} struggles with and {subject} has difficulty speaking about more complex or niche topics.",
+    "{student_name_cap} has a slightly lower range of vocabulary than required for this level. {subject_cap} should work on reviewing all vocabulary studied to make sure {subject} can use new words effectively.",
+    "In terms of vocabulary, {student_name_cap} is a little below the level of the class. {subject_cap} needs to revise new words in {possess} own time to make sure {subject} can use them correctly.",
+
+    # Average
+    "{student_name_cap}'s vocabulary is about right for this level. {subject_cap} has some gaps but generally uses the correct word in most situations.",
+    "{student_name_cap} has a decent vocabulary and can normally express {object_pronoun}self well, although {subject} sometimes struggles with more nuanced words.",
+    "In terms of vocabulary, {student_name_cap} is working at the right level for this class but still has gaps in {possess} knowledge.",
+
+    # Good
+    "{student_name_cap}'s vocabulary is good and {subject} tends to use words accurately.",
+    "{student_name_cap} has a good range of vocabulary for {possess} level and tends to pick up and use new words quickly.",
+    "In terms of vocabulary, {student_name_cap} is good for {possess} level. {subject_cap} uses words accurately and rarely needs to search to find the correct word.",
+
+    # Very good
+    "{student_name_cap}'s vocabulary is excellent. {subject_cap} has an extremely extensive range for {possess} level and tends to use words very accurately.",
+    "{student_name_cap} has an exceptional grasp of vocabulary and frequently uses words that are more difficult than those studied in class.",
+    "In terms of vocabulary, {student_name_cap} is highly proficient for this level, often using words that are well above the level required.",
+]
+
+# Speaking Fluency Text List
+speaking = [
+    # Terrible
+    "{student_name_cap} is well below the fluency expected at this level. {subject_cap} finds it difficult to express {object_pronoun}self even on simple topics.",
+    "{student_name_cap} has many problems with speaking. {subject_cap} needs a long time to formulate sentences and struggles to use new words or grammar structures.",
+    "Speaking is one of {student_name_cap}'s weakest areas. {subject_cap} is very hesitant when speaking and often needs to search for words or grammar structures to express {object_pronoun}self.",
+
+    # Below average
+    "{student_name_cap} is slightly weak in terms of fluency. {subject_cap} often has to search for words or pause while speaking.",
+    "{student_name_cap} has a fluency a little below the level of the class. {subject_cap} can speak but not without taking time to consider sentences first.",
+    "Speaking is a problem area for {student_name_cap}. {subject_cap} needs to think a lot before speaking and tends to take a long time to express more complex ideas.",
+
+    # Average
+    "{student_name_cap} is fairly fluent for this level but still needs some time to make more complex sentences.",
+    "{student_name_cap} has a decent speaking level but {possess} speech often exhibits hesitations and pauses.",
+    "For this level, {student_name_cap} can speak fairly well but is hesitant when producing more complex or spontaneous language.",
+
+    # Good
+    "{student_name_cap}'s fluency is good for this level. {subject_cap} speaks confidently on a wide range of topics.",
+    "{student_name_cap} can speak quickly and clearly for someone of {possess} level. {subject_cap} can make complex sentences without much hesitation.",
+    "When speaking, {student_name_cap} is very fluent for this level and produces speech naturally and confidently.",
+
+    # Very good
+    "{student_name_cap} is incredibly fluent for {possess} level and can produce accurate sentences spontaneously and confidently.",
+    "{student_name_cap} shows fantastic fluency for this level and speaks both quickly and accurately.",
+    "When speaking, {student_name_cap} is extremely fluent and confident. {subject_cap} can produce very natural language without any hesitation.",
+]
+
+# Pronunciation Text List
+pron = [
+    # Terrible
+    "{subject_cap} displays many problems with pronunciation. {subject_cap} struggles with even basic words which makes it very difficult for {object_pronoun} to be understood.",
+    "{possess_cap} pronunciation is a major concern. {subject_cap} mispronounces the majority of words when speaking, making it very difficult to follow {object_pronoun} in conversation.",
+    "{subject_cap} has very poor pronunciation for this level. Very frequent mistakes make it very difficult to understand what {subject} wants to say.",
+
+    # Below average
+    "{subject_cap} has some problems with pronunciation. {subject_cap} often struggles to make {object_pronoun}self understood in conversation.",
+    "{possess_cap} pronunciation is slightly weak for this level. This often hinders {possess} ability to communicate.",
+    "{subject_cap} has weaker than expected pronunciation for this level. This causes problems when {subject} is in conversation.",
+
+    # Average
+    "{subject_cap} pronounces words correctly most of the time. However, some words cause problems and this can hinder {possess} ability to communicate.",
+    "{possess_cap} pronunciation is fairly good, but {subject} does struggle with new or more difficult words which can lead to problems.",
+    "{subject_cap} has decent pronunciation for someone of this level, making some errors but not so many that {subject} cannot make {object_pronoun}self understood.",
+
+    # Good
+    "{subject_cap} speaks with a natural and clear pronunciation. Only the occasional new word causes problems.",
+    "{possess_cap} pronunciation is good for this level. {subject_cap} tends to speak clearly with very few errors.",
+    "{subject_cap} generally has good pronunciation. Nearly all words are pronounced correctly with few problems to impede communication.",
+
+    # Very good
+    "{subject_cap} pronounces {possess} words very well, with no impediments to understanding.",
+    "{possess_cap} pronunciation is exceptionally good, with {possess} speaking being very natural and easy to understand.",
+    "{subject_cap} has extremely good pronunciation, speaking both clearly and naturally.",
+]
+
+# Tkinter Setup
+window = tk.Tk()
+window.title("Report Writer")
+window.geometry("750x700")
+
+# Function to Set Gender and Pronouns
+def set_gender():
+    global subject, possess, object_pronoun, subject_cap, possess_cap, object_pronoun_cap
+    if gender_var.get() == 0:
+        subject = "he"
+        possess = "his"
+        object_pronoun = "him"
+        subject_cap = "He"
+        possess_cap = "His"
+        object_pronoun_cap = "Him"
+    else:
+        subject = "she"
+        possess = "her"
+        object_pronoun = "her"
+        subject_cap = "She"
+        possess_cap = "Her"
+        object_pronoun_cap = "Her"
+
+# Function to Compile Report
+def compile_report():
+    global student_name
+    student_name = name_entry.get()
+    student_name_cap = student_name.capitalize()  # Capitalized version of student_name
+    set_gender()  # Set pronouns based on the selected gender
+    report = []
+
+    # Introduction
+    intro_text = intros[length_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, object_pronoun=object_pronoun
+    )
+
+    # Work Ethic
+    work_text = work[work_ethic_var.get() * 3 + r.randint(0, 2)].format(
+        subject=subject, subject_cap=subject_cap, object_pronoun=object_pronoun
+    )
+    intro_text = intro_text + work_text
+    report.append(intro_text)
+
+    # Grammar
+    grammar_text = grammar[grammar_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(grammar_text)
+
+    # Grammar Problem Areas
+    selected_grammar_areas = [area for area, var in grammar_areas_vars.items() if var.get() == 1]
+    if selected_grammar_areas:
+        for area in selected_grammar_areas:
+            problem_text = grammar_details[area][r.randint(0, 2)].format(
+                student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, object_pronoun=object_pronoun
+            )
+            report.append(problem_text)
+
+    # Vocabulary
+    vocab_text = vocab[vocab_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(vocab_text)
+
+    # Speaking Fluency
+    speaking_text = speaking[speaking_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(speaking_text)
+
+    # Pronunciation
+    pron_text = pron[pron_var.get() * 3 + r.randint(0, 2)].format(
+        subject=subject, subject_cap=subject_cap, possess=possess, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(pron_text)
+
+    # Display the report in the text box
+    report_box.delete("1.0", tk.END)
+    for paragraph in report:
+        report_box.insert(tk.END, paragraph + "\n\n")
+
+# Define grammar_areas_vars to store the checkbox variables
+grammar_areas_vars = {}
+
+# Create a frame for the entry box
+entry_frame = tk.Frame(window)
+entry_frame.grid(row=0, column=0, padx=10, pady=10)
+
+# Create frames for different sections
+form_frame = tk.Frame(window)
+form_frame.grid(row=1, column=0, padx=10, pady=10)
+
+grammar_areas_frame = tk.Frame(window)
+grammar_areas_frame.grid(row=2, column=0, padx=10, pady=10)
+
+other_options_frame = tk.Frame(window)
+other_options_frame.grid(row=3, column=0, padx=10, pady=10)
+
+# Entry Box Layout
+tk.Label(entry_frame, text="Student Name:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+name_entry = tk.Entry(entry_frame, width=30)
+name_entry.grid(row=0, column=1, padx=10, pady=5)
+
+# Form Section Layout
+tk.Label(form_frame, text="Gender:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+gender_var = tk.IntVar(value=0)
+tk.Radiobutton(form_frame, text="Male", variable=gender_var, value=0).grid(row=0, column=1, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Female", variable=gender_var, value=1).grid(row=0, column=2, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Length in Class:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+length_var = tk.IntVar(value=0)
+tk.Radiobutton(form_frame, text="Short", variable=length_var, value=0).grid(row=1, column=1, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Medium", variable=length_var, value=1).grid(row=1, column=2, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Long", variable=length_var, value=2).grid(row=1, column=3, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Work Ethic:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+work_ethic_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(form_frame, text=str(i + 1), variable=work_ethic_var, value=i).grid(row=2, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Grammar Accuracy:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=5)
+grammar_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(form_frame, text=str(i + 1), variable=grammar_var, value=i).grid(row=3, column=1 + i, sticky=tk.W, padx=5)
+
+# Grammar Problem Areas Layout
+tk.Label(grammar_areas_frame, text="What grammar areas does the student have problems with?").grid(row=0, column=0, columnspan=4, sticky=tk.W, padx=10, pady=5)
+
+row_start = 1
+column_start = 0
+for i, area in enumerate(grammar_details.keys()):
+    var = tk.IntVar()
+    grammar_areas_vars[area] = var  # Store the IntVar in the dictionary
+    current_row = row_start + i // 4
+    current_column = column_start + i % 4
+    tk.Checkbutton(grammar_areas_frame, text=area, variable=var).grid(row=current_row, column=current_column, sticky=tk.W, padx=10, pady=2)
+
+# Restoring the specific options for vocabulary, speaking, and pronunciation
+tk.Label(other_options_frame, text="Vocabulary:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+vocab_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=vocab_var, value=i).grid(row=0, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(other_options_frame, text="Speaking Fluency:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+speaking_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=speaking_var, value=i).grid(row=1, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(other_options_frame, text="Pronunciation:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+pron_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=pron_var, value=i).grid(row=2, column=1 + i, sticky=tk.W, padx=5)
+
+# Report Text Box
+report_box = tk.Text(window, height=10, width=100)
+report_box.grid(row=4, column=0, padx=10, pady=10)
+
+# Generate Report Button
+generate_button = tk.Button(window, text="Generate Report", command=compile_report)
+generate_button.grid(row=5, column=0, pady=10)
+
+window.mainloop()# Function to Set Gender and Pronouns
+def set_gender():
+    global subject, possess, object_pronoun, subject_cap, possess_cap, object_pronoun_cap
+    if gender_var.get() == 0:
+        subject = "he"
+        possess = "his"
+        object_pronoun = "him"
+        subject_cap = "He"
+        possess_cap = "His"
+        object_pronoun_cap = "Him"
+    else:
+        subject = "she"
+        possess = "her"
+        object_pronoun = "her"
+        subject_cap = "She"
+        possess_cap = "Her"
+        object_pronoun_cap = "Her"
+
+# Function to Compile Report
+def compile_report():
+    global student_name
+    student_name = name_entry.get()
+    student_name_cap = student_name.capitalize()  # Capitalized version of student_name
+    set_gender()  # Set pronouns based on the selected gender
+    report = []
+
+    # Introduction
+    intro_text = intros[length_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, object_pronoun=object_pronoun
+    )
+
+    # Work Ethic
+    work_text = work[work_ethic_var.get() * 3 + r.randint(0, 2)].format(
+        subject=subject, subject_cap=subject_cap, object_pronoun=object_pronoun
+    )
+    intro_text = intro_text + work_text
+    report.append(intro_text)
+
+    # Grammar
+    grammar_text = grammar[grammar_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(grammar_text)
+
+    # Grammar Problem Areas
+    selected_grammar_areas = [area for area, var in grammar_areas_vars.items() if var.get() == 1]
+    if selected_grammar_areas:
+        for area in selected_grammar_areas:
+            problem_text = grammar_details[area][r.randint(0, 2)].format(
+                student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, object_pronoun=object_pronoun
+            )
+            report.append(problem_text)
+
+    # Vocabulary
+    vocab_text = vocab[vocab_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(vocab_text)
+
+    # Speaking Fluency
+    speaking_text = speaking[speaking_var.get() * 3 + r.randint(0, 2)].format(
+        student_name_cap=student_name_cap, subject=subject, possess=possess, subject_cap=subject_cap, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(speaking_text)
+
+    # Pronunciation
+    pron_text = pron[pron_var.get() * 3 + r.randint(0, 2)].format(
+        subject=subject, subject_cap=subject_cap, possess=possess, possess_cap=possess_cap, object_pronoun=object_pronoun
+    )
+    report.append(pron_text)
+
+    # Display the report in the text box
+    report_box.delete("1.0", tk.END)
+    for paragraph in report:
+        report_box.insert(tk.END, paragraph + "\n\n")
+
+# Define grammar_areas_vars to store the checkbox variables
+grammar_areas_vars = {}
+
+# Create a frame for the entry box
+entry_frame = tk.Frame(window)
+entry_frame.grid(row=0, column=0, padx=10, pady=10)
+
+# Create frames for different sections
+form_frame = tk.Frame(window)
+form_frame.grid(row=1, column=0, padx=10, pady=10)
+
+grammar_areas_frame = tk.Frame(window)
+grammar_areas_frame.grid(row=2, column=0, padx=10, pady=10)
+
+other_options_frame = tk.Frame(window)
+other_options_frame.grid(row=3, column=0, padx=10, pady=10)
+
+# Entry Box Layout
+tk.Label(entry_frame, text="Student Name:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+name_entry = tk.Entry(entry_frame, width=30)
+name_entry.grid(row=0, column=1, padx=10, pady=5)
+
+# Form Section Layout
+tk.Label(form_frame, text="Gender:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+gender_var = tk.IntVar(value=0)
+tk.Radiobutton(form_frame, text="Male", variable=gender_var, value=0).grid(row=0, column=1, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Female", variable=gender_var, value=1).grid(row=0, column=2, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Length in Class:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+length_var = tk.IntVar(value=0)
+tk.Radiobutton(form_frame, text="Short", variable=length_var, value=0).grid(row=1, column=1, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Medium", variable=length_var, value=1).grid(row=1, column=2, sticky=tk.W, padx=5)
+tk.Radiobutton(form_frame, text="Long", variable=length_var, value=2).grid(row=1, column=3, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Work Ethic:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+work_ethic_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(form_frame, text=str(i + 1), variable=work_ethic_var, value=i).grid(row=2, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(form_frame, text="Grammar Accuracy:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=5)
+grammar_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(form_frame, text=str(i + 1), variable=grammar_var, value=i).grid(row=3, column=1 + i, sticky=tk.W, padx=5)
+
+# Grammar Problem Areas Layout
+tk.Label(grammar_areas_frame, text="What grammar areas does the student have problems with?").grid(row=0, column=0, columnspan=4, sticky=tk.W, padx=10, pady=5)
+
+row_start = 1
+column_start = 0
+for i, area in enumerate(grammar_details.keys()):
+    var = tk.IntVar()
+    grammar_areas_vars[area] = var  # Store the IntVar in the dictionary
+    current_row = row_start + i // 4
+    current_column = column_start + i % 4
+    tk.Checkbutton(grammar_areas_frame, text=area, variable=var).grid(row=current_row, column=current_column, sticky=tk.W, padx=10, pady=2)
+
+# Restoring the specific options for vocabulary, speaking, and pronunciation
+tk.Label(other_options_frame, text="Vocabulary:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+vocab_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=vocab_var, value=i).grid(row=0, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(other_options_frame, text="Speaking Fluency:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+speaking_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=speaking_var, value=i).grid(row=1, column=1 + i, sticky=tk.W, padx=5)
+
+tk.Label(other_options_frame, text="Pronunciation:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+pron_var = tk.IntVar(value=2)
+for i in range(5):
+    tk.Radiobutton(other_options_frame, text=str(i + 1), variable=pron_var, value=i).grid(row=2, column=1 + i, sticky=tk.W, padx=5)
+
+# Report Text Box
+report_box = tk.Text(window, height=15, width=100)
+report_box.grid(row=4, column=0, padx=10, pady=10)
+
+# Generate Report Button
+generate_button = tk.Button(window, text="Generate Report", command=compile_report)
+generate_button.grid(row=5, column=0, pady=10)
+
+window.mainloop()
